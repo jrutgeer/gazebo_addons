@@ -32,3 +32,5 @@ After building and sourcing, run the example world by issuing following command:
 # Acknowledgement
 
 The code was inspired by the [ARIAC object disposal plugin](https://github.com/usnistgov/ARIAC/blob/ariac2023/ariac_plugins/include/ariac_plugins/object_disposal_plugin.hpp) for Gazebo classic, and based on the [touch plugin](https://github.com/gazebosim/gz-sim/tree/gz-sim7/src/systems/touch_plugin) and the [user commands](https://github.com/gazebosim/gz-sim/tree/gz-sim7/src/systems/user_commands) plugin from `gz-sim`.
+
+The [ros_gz_project_template](https://github.com/gazebosim/ros_gz_project_template) was an invaluable example of how to build a system plugin for Gazebo sim, outside the Gazebo source repositories.
