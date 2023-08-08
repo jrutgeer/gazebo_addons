@@ -197,7 +197,7 @@ void WasteBin::PostUpdate(const UpdateInfo & _info,
     for (const Entity collisionEntity : this->dataPtr->wasteBinEntities)
     {
       auto * contacts = _ecm.Component<components::ContactSensorData>(collisionEntity);
-      if (contacts)
+      if (contacts->Data().contact().size() > 0)
       {
         // Insert the contacting entity into the contactingEntities set:
         // An std::unordered_set only holds unique values so entities making multiple
@@ -218,7 +218,7 @@ void WasteBin::PostUpdate(const UpdateInfo & _info,
             this->dataPtr->contactingEntities.insert(contact.collision1().id());
           }
         }
-        if (this->dataPtr->contactingEntities.size() > 0) touching = true;
+        touching = true;
       }
     }
   }
@@ -233,7 +233,9 @@ void WasteBin::PostUpdate(const UpdateInfo & _info,
     if (WasteBinPrivate::DurationType::zero() != this->dataPtr->firstContactTime)
     {
       gzdbg << "Model " << this->dataPtr->modelName
-            << " lost contact at " << _info.simTime.count() << "s." << std::endl;
+            << " lost contact at "
+            << std::chrono::duration_cast<WasteBinPrivate::DurationType>(_info.simTime).count()
+            << "s." << std::endl;
 
       this->dataPtr->contactingEntities.clear();
       this->dataPtr->firstContactTime = WasteBinPrivate::DurationType::zero();
