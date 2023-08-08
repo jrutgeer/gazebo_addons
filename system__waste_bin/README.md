@@ -19,9 +19,13 @@ To build, open a terminal window and issue following commands:
   source install/setup.bash
 ```
 
-After this, run the example by issuing following command:
+
+# Run the example world
+
+After building and sourcing, run the example world by issuing following command:
 
 ```
+  cd gazebo_addons
   gz sim system__waste_bin/worlds/waste_bin.sdf
 ```
 
