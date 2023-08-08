@@ -1,0 +1,323 @@
+<?xml version="1.0" ?>
+<!--
+This is an example demonstrating the use of the WasteBin system plugin.
+The plugin requires that the Contact system is loaded as world plugin,
+and that a contact sensor is defined in at least one link of the model
+to which this plugin is attached.
+
+The plugin has one parameter <delay> which sets the duration of contact
+after which the contacting model is removed.
+-->
+
+<sdf version="1.6">
+  <world name="World_without_Waste">
+
+    <plugin
+      filename="gz-sim-physics-system"
+      name="gz::sim::systems::Physics">
+    </plugin>
+
+    <!-- Contact system loaded as world plugin -->
+    <plugin
+      filename="gz-sim-contact-system"
+      name="gz::sim::systems::Contact">
+    </plugin>
+
+    <plugin
+      filename="gz-sim-user-commands-system"
+      name="gz::sim::systems::UserCommands">
+    </plugin>
+
+    <plugin
+      filename="gz-sim-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+
+    <model name="waste_bin">
+      <pose>0 0 0 0 0 0</pose>
+      <static>true</static>
+
+      <link name="waste_bin_link">
+        <!-- To register collisions with the plugin, reference them in the contact
+             sensor (see below) by their name (in this case: "bottom_collision"). -->
+        <collision name="bottom_collision">
+          <!-- Note: positioned slightly above the ground plane so it does not touch it.
+             Otherwise the ground plane would be deleted by the waste bin. -->
+          <pose>0 0 0.035 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.5 0.5 0.05</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="bottom_visual">
+          <pose>0 0 0.035 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.5 0.5 0.05</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0.3 0.3 1</ambient>
+            <diffuse>0 0.3 0.3 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Side 1 -->
+        <collision name="side_1_collision">
+          <pose>-0.275 0 0.25 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.05 0.6 0.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="side_1_visual">
+          <pose>-0.275 0 0.25 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.05 0.6 0.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0.3 0.3 1</ambient>
+            <diffuse>0 0.3 0.3 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Side 2 -->
+        <collision name="side_2_collision">
+          <pose>0.275 0 0.25 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.05 0.6 0.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="side_2_visual">
+          <pose>0.275 0 0.25 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.05 0.6 0.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0.3 0.3 1</ambient>
+            <diffuse>0 0.3 0.3 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Side 3 -->
+        <collision name="side_3_collision">
+          <pose>0 -0.275 0.25 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="side_3_visual">
+          <pose>0 -0.275 0.25 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0.3 0.3 1</ambient>
+            <diffuse>0 0.3 0.3 1</diffuse>
+          </material>
+        </visual>
+        
+        <!-- Side 4 -->
+        <collision name="side_4_collision">
+          <pose>0 0.275 0.25 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="side_4_visual">
+          <pose>0 0.275 0.25 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0.3 0.3 1</ambient>
+            <diffuse>0 0.3 0.3 1</diffuse>
+          </material>
+        </visual>
+       
+
+        <!-- Contact sensor is defined in at least one link of the model... -->
+        <sensor name="waste_bin_sensor" type="contact">
+          <contact>
+            <collision>bottom_collision</collision>
+          </contact>
+        </sensor>
+
+      </link>
+
+      <!-- ...to which this plugin is attached. -->
+      <plugin
+        filename="WasteBin"
+        name="gz::sim::systems::WasteBin">
+        <delay>3</delay>
+      </plugin>
+
+    </model>
+
+    <model name="ramp">
+      <pose degrees="true">0 -0.8 2 60 0 180</pose>
+      <static>true</static>
+
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.3 2 0.05</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.3 2 0.05</size>
+            </box>
+          </geometry>
+          <!--material>
+            <ambient>0.2 0.12 0.3 1</ambient>
+            <diffuse>0.2 0.12 0.3 1</diffuse>
+            <specular>0.2 0.12 0.3 1</specular>
+          </material-->
+          <material>
+            <ambient>1 0.9 0 1</ambient>
+            <diffuse>1 0.9 0 1</diffuse>
+            <specular>1 0.9 0 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+
+    <model name="sphere_1">
+      <pose>0.1 -0.4 5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <sphere>
+              <radius>0.075</radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <sphere>
+              <radius>0.075</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>1 1 1 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="sphere_2">
+      <pose>0 -0.8 5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <sphere>
+              <radius>0.075</radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <sphere>
+              <radius>0.075</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>1 1 1 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="sphere_3">
+      <pose>-0.1 -1.2 5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <sphere>
+              <radius>0.075</radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <sphere>
+              <radius>0.075</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>1 1 1 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.5 0.5 0.5 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>
