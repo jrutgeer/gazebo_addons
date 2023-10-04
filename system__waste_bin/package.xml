@@ -15,7 +15,7 @@
   
   <depend>gz-plugin2</depend>
   <depend>gz-common5</depend>
-  <depend>gz-sim7</depend>
+  <depend>gz-sim8</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
