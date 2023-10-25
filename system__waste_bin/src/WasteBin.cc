@@ -152,6 +152,14 @@ void WasteBin::PostUpdate(const UpdateInfo & _info,
   if (_info.paused) return;
   if (!this->dataPtr->configured) return;
 
+  if (!this->dataPtr->model.Valid(_ecm))
+  {
+    gzwarn << "Model <" << this->dataPtr->modelName << "> no longer valid. "
+           << "Disabling WasteBin plugin." << std::endl;
+    this->dataPtr->configured = false;
+    return;
+  }
+
   // This conceptually rather belongs to the Configure() step, but in the Configure() step
   // the ContactSensorData components are not yet created.
   if (!this->dataPtr->collisionsInitialized)
